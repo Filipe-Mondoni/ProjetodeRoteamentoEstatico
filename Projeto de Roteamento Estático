@@ -1,0 +1,325 @@
+enable
+configure terminal
+hostname SW-01
+banner motd "ACESSO AUTORIZADO APENAS PARA O DEPARTAMENTO DE TI!"
+enable secret SenhaEnable
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+line vty 0 15
+password SenhadaVTY
+login
+exit
+interface vlan 1
+ip address 192.168.1.0 255.255.255.224
+description INTERFACE DE GERENCIAMENTO
+no shutdown
+exit
+ip default-gateway 192.168.1.0
+ip domain-name filipe
+username administrador privilege 15 secret SenhaAdmin
+username estagiario privilege 1 secret SenhaEst
+exit
+configure terminal
+login block-for 60 attempts 3 within 60
+security passwords min-length 8
+crypto key generate rsa general-keys modulus 1024
+line vty 0 15
+transport input ssh
+login local
+exec-timeout 10
+do wr
+
+enable
+configure terminal
+hostname SW-02
+banner motd "ACESSO AUTORIZADO APENAS PARA O DEPARTAMENTO DE TI!"
+enable secret SenhaEnable
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+line vty 0 15
+password SenhadaVTY
+login
+exit
+interface vlan 1
+ip address 192.168.1.0 255.255.255.224
+description INTERFACE DE GERENCIAMENTO
+no shutdown
+exit
+ip default-gateway 192.168.1.0
+ip domain-name filipe
+username administrador privilege 15 secret SenhaAdmin
+username estagiario privilege 1 secret SenhaEst
+exit
+configure terminal
+login block-for 60 attempts 3 within 60
+security passwords min-length 8
+crypto key generate rsa general-keys modulus 1024
+line vty 0 15
+transport input ssh
+login local
+exec-timeout 10
+do wr
+
+enable
+configure terminal
+hostname SW-03
+banner motd "ACESSO AUTORIZADO APENAS PARA O DEPARTAMENTO DE TI!"
+enable secret SenhaEnable
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+line vty 0 15
+password SenhadaVTY
+login
+exit
+interface vlan 1
+ip address 192.168.0.0 255.255.255.128
+description INTERFACE DE GERENCIAMENTO
+no shutdown
+exit
+ip default-gateway 192.168.0.0
+ip domain-name filipe
+username administrador privilege 15 secret SenhaAdmin
+username estagiario privilege 1 secret SenhaEst
+exit
+configure terminal
+login block-for 60 attempts 3 within 60
+security passwords min-length 8
+crypto key generate rsa general-keys modulus 1024
+line vty 0 15
+transport input ssh
+login local
+exec-timeout 10
+do wr
+
+enable
+configure terminal
+hostname SW-04
+banner motd "ACESSO AUTORIZADO APENAS PARA O DEPARTAMENTO DE TI!"
+enable secret SenhaEnable
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+line vty 0 15
+password SenhadaVTY
+login
+exit
+interface vlan 1
+ip address 172.16.42.0 255.255.252.0
+description INTERFACE DE GERENCIAMENTO
+no shutdown
+exit
+ip default-gateway 172.16.42.0
+ip domain-name filipe
+username administrador privilege 15 secret SenhaAdmin
+username estagiario privilege 1 secret SenhaEst
+exit
+configure terminal
+login block-for 60 attempts 3 within 60
+security passwords min-length 8
+crypto key generate rsa general-keys modulus 1024
+line vty 0 15
+transport input ssh
+login local
+exec-timeout 10
+do wr
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+enable
+configure terminal
+hostname R1
+banner motd "ACESSO APENAS PARA O DEPARTAMENTO DE TI"
+enable secret SenhaEnable
+ip domain-name filipe
+crypto key generate rsa general-keys modulus 1024
+line vty 0 15
+password SenhadaVTY
+login
+transport input ssh
+exec-timeout 10
+exit
+username administrador privilege 15 secret SenhaAdmin
+username estagiario privilege 1 secret SenhaEst
+login block-for 180 attempts 3 within 60
+security passwords min-length 8
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+interface gigabitEthernet 0/0
+ip add 192.168.1.1 255.255.255.192
+description REDE 192.168.1.0/27
+no shutdown
+exit
+interface serial 0/0/0
+ip address 200.200.100.1 255.255.255.252
+description REDE 200.200.100.0/30
+no shutdown
+exit
+interface serial 0/0/1
+ip address 200.200.100.5 255.255.255.252
+description REDE 200.200.100.0/30
+no shutdown
+exit
+ip route 192.168.0.0 255.255.255.128 200.200.100.6
+ip route 192.168.0.0 255.255.255.128 200.200.100.9
+ip route 10.40.16.0 255.255.240.0 200.200.100.2
+ip route 10.40.16.0 255.255.240.0 200.200.100.14
+ip route 172.16.42.0 255.255.254.0 200.200.100.13
+ip route 172.16.42.0 255.255.254.0 200.200.100.10
+ip route 192.168.1.0 255.255.255.224 200.200.100.1
+ip route 192.168.1.0 255.255.255.224 200.200.100.5
+
+enable
+configure terminal
+hostname R2
+banner motd "ACESSO APENAS PARA O DEPARTAMENTO DE TI"
+enable secret SenhaEnable
+ip domain-name filipe
+crypto key generate rsa general-keys modulus 1024
+line vty 0 15
+password SenhadaVTY
+login
+transport input ssh
+exec-timeout 10
+exit
+username administrador privilege 15 secret SenhaAdmin
+username Estagiario privilege 1 secret SenhaEst
+login block-for 180 attempts 3 within 60
+security passwords min-length 8
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+interface gigabitEthernet 0/0
+ip add 10.40.16.0 255.255.240.0
+description REDE 10.40.16.0/20
+no shutdown
+exit
+interface serial 0/0/0
+ip address 200.200.100.2 255.255.255.252
+description REDE 200.200.100.0/30
+no shutdown
+exit
+interface serial 0/0/1
+ip address 200.200.100.14 255.255.255.252
+description REDE 200.200.100.0/30
+no shutdown
+exit
+ip route 192.168.0.0 255.255.255.128 200.200.100.6
+ip route 192.168.0.0 255.255.255.128 200.200.100.9
+ip route 10.40.16.0 255.255.240.0 200.200.100.2
+ip route 10.40.16.0 255.255.240.0 200.200.100.14
+ip route 172.16.42.0 255.255.254.0 200.200.100.13
+ip route 172.16.42.0 255.255.254.0 200.200.100.10
+ip route 192.168.1.0 255.255.255.224 200.200.100.1
+ip route 192.168.1.0 255.255.255.224 200.200.100.5
+
+enable
+configure terminal
+hostname R3
+banner motd "ACESSO APENAS PARA O DEPARTAMENTO DE TI"
+enable secret SenhaEnable
+ip domain-name filipe
+crypto key generate rsa general-keys modulus 1024
+line vty 0 15
+password SenhadaVTY
+login
+transport input ssh
+exec-timeout 10
+exit
+username administrador privilege 15 secret SenhaAdmin
+username Estagiario privilege 1 secret SenhaEst
+login block-for 180 attempts 3 within 60
+security passwords min-length 8
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+interface gigabitEthernet 0/0
+ip add 192.168.0.0 255.255.255.128
+description REDE 192.168.0.0/25
+no shutdown
+exit
+interface serial 0/0/0
+ip address 200.200.100.8 255.255.255.252
+description REDE 200.200.100.0/30
+no shutdown
+exit
+interface serial 0/0/1
+ip address 200.200.100.6 255.255.255.252
+description REDE 200.200.100.4/30
+no shutdown
+exit
+ip route 192.168.0.0 255.255.255.128 200.200.100.6
+ip route 192.168.0.0 255.255.255.128 200.200.100.9
+ip route 10.40.16.0 255.255.240.0 200.200.100.2
+ip route 10.40.16.0 255.255.240.0 200.200.100.14
+ip route 172.16.42.0 255.255.254.0 200.200.100.13
+ip route 172.16.42.0 255.255.254.0 200.200.100.10
+ip route 192.168.1.0 255.255.255.224 200.200.100.1
+ip route 192.168.1.0 255.255.255.224 200.200.100.5
+
+enable
+configure terminal
+hostname R4
+banner motd "ACESSO APENAS PARA O DEPARTAMENTO DE TI"
+enable secret SenhaEnable
+ip domain-name filipe
+crypto key generate rsa general-keys modulus 1024
+line vty 0 15
+password SenhadaVTY
+login
+transport input ssh
+exec-timeout 10
+exit
+username administrador privilege 15 secret SenhaAdmin
+username Estagiario privilege 1 secret SenhaEst
+login block-for 180 attempts 3 within 60
+security passwords min-length 8
+line console 0
+password SenhadaConsole
+login
+exit
+service password-encryption
+interface gigabitEthernet 0/0
+ip add 172.16.42.0 255.255.252.0
+description REDE 172.16.42.0/23
+no shutdown
+exit
+interface serial 0/0/0
+ip address 200.200.100.8 255.255.255.252
+description REDE 200.200.100.10/30
+no shutdown
+exit
+interface serial 0/0/1
+ip address 200.200.100.6 255.255.255.252
+description REDE 200.200.100.13/30
+no shutdown
+exit
+ip route 192.168.0.0 255.255.255.128 200.200.100.6
+ip route 192.168.0.0 255.255.255.128 200.200.100.9
+ip route 10.40.16.0 255.255.240.0 200.200.100.2
+ip route 10.40.16.0 255.255.240.0 200.200.100.14
+ip route 172.16.42.0 255.255.254.0 200.200.100.13
+ip route 172.16.42.0 255.255.254.0 200.200.100.10
+ip route 192.168.1.0 255.255.255.224 200.200.100.1
+ip route 192.168.1.0 255.255.255.224 200.200.100.5
+
+
+
+
+
+
